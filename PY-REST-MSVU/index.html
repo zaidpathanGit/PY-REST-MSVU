@@ -1,0 +1,389 @@
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<style>
+body{
+    background:#F8F9F9;
+    margin:5px;
+}
+input, select {
+    width: 100%;
+    padding: 3px 3px;
+    margin: 5px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+p {
+    margin: 5px 0;
+    color: #E74C3C;
+}
+</style>
+
+<script>
+    //Function to generate serializers via the input given by user
+    function generateSerializers()
+    {
+        //Code to get user input into variable
+        serializersName = document.getElementById('txtSerializersname').value;
+        
+        //Condition to check if user has inputted blank value or not
+        if(serializersName == "")
+        {
+            alert("Serializers name cant be empty.!");
+        }
+        else
+        {
+            //Code to convert string into array
+            serializersNameArray = serializersName.split(",");
+
+            //Code to generate for loop to generate multiple serializers
+            for(var i=0; i<serializersNameArray.length; i++)
+            {
+                //Variable to store code block
+                codeToAppend = 
+                                "<div style='border:solid lightgrey; font-weight: bold; margin:20;'>" +
+                                "<code>" +
+                                    "<font class='serializerImports' style='color:Red;'>" +
+                                        "from .models import * <br>" +
+                                        "from rest_framework import serializers <br><br>" +
+                                    "</font>" +
+                                    "" +
+                                    "<font style='color:blue;'>class</font> <font id='Serializername'>[SerializerName]</font>Serializer(serializers.ModelSerializer): <br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;<font style='color:blue;'>class</font> Meta: <br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model = [SerializerName] <br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fields = &quot;__all__&quot; <br>" +
+                                "</code>" +
+                            "</div>";
+
+                //Code to replace [SerializerName] with user inputted value
+                codeToAppend = codeToAppend.replace("[SerializerName]",serializersNameArray[i]).replace("[SerializerName]",serializersNameArray[i])
+
+                //Code to add generated serializers code into Tab2 via innerHTML
+                document.getElementById('Tab2').innerHTML += codeToAppend;
+            }
+        }
+    }
+
+    //Function to generate views via the input given by user
+    function generateViews()
+    {
+        //Code to get user input into variable
+        viewsName = document.getElementById('txtViewsname').value;
+        
+        //Condition to check if user has inputted blank value or not
+        if(viewsName == "")
+        {
+            alert("Views name cant be empty.!");
+        }
+        else
+        {
+            //Code to convert string into array
+            viewsNameArray = viewsName.split(",");
+
+            //Code to generate for loop to generate multiple views
+            for(var i=0; i<viewsName.length; i++)
+            {
+                //Variable to store code block
+                codeToAppend = 
+                            "<div style='border:solid lightgrey; font-weight: bold; margin:20;'>" +
+                                "<code>" +
+                                    "<font class='viewsImports' style='color:Red;'>" +
+                                        "from rest_framework.views import APIView<br>"+
+                                        "from rest_framework.response import Response<br>"+
+                                        "from .models import *<br>"+
+                                        "from .serializers import *<br><br>"+
+                                    "</font>" +
+                                    "<font style='color:blue;'>class</font> [viewsName]API(APIView):<br><br>"+
+
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;def get(self, request):<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[viewsName]Data = [viewsName].objects.all()<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response([viewsName]Serializer([viewsName]Data, many=True).data)<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=500)<br><br>"+
+
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;def post(self, request):<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[viewsName]Data = [viewsName]Serializer(data=request.data)<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if [viewsName]Data.is_valid():<br>"+
+                                                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[viewsName]Data.save()<br>"+
+                                                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=200)<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>"+
+                                                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=500)<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=500)<br><br>"+
+
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;def patch(self, request, id):<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[viewsName]Data = [viewsName]Serializer([viewsName].objects.get(pk = id), data=request.data, partial=True)<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if [viewsName]Data.is_valid():<br>"+
+                                                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[viewsName]Data.save()<br>"+
+                                                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=200)<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>"+
+                                                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=500)<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=500)<br><br>"+
+
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;def delete(self, request, id):<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[viewsName].objects.get(pk=id).delete()<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=200)<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except:<br>"+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Response(status=500)<br>"+
+                                    "" +
+                            "</div>";
+
+                //Code to replace [viewsName] with user inputted value
+                codeToAppend = codeToAppend.replace("[viewsName]",viewsNameArray[i])
+                    .replace("[viewsName]",viewsNameArray[i]).replace("[viewsName]",viewsNameArray[i])
+                    .replace("[viewsName]",viewsNameArray[i]).replace("[viewsName]",viewsNameArray[i])
+                    .replace("[viewsName]",viewsNameArray[i]).replace("[viewsName]",viewsNameArray[i])
+                    .replace("[viewsName]",viewsNameArray[i]).replace("[viewsName]",viewsNameArray[i])
+                    .replace("[viewsName]",viewsNameArray[i]).replace("[viewsName]",viewsNameArray[i])
+                    .replace("[viewsName]",viewsNameArray[i]).replace("[viewsName]",viewsNameArray[i])
+                    .replace("[viewsName]",viewsNameArray[i]).replace("[viewsName]",viewsNameArray[i])
+                                            
+
+                //Code to add generated views code into Tab2 via innerHTML
+                document.getElementById('Tab3').innerHTML += codeToAppend;
+            }
+        }
+    }
+
+    //Function to generate urls via the input given by user
+    function generateUrls()
+    {
+        //Code to get user input into variable
+        urlsName = document.getElementById('txtUrlsname').value;
+        
+        //Condition to check if user has inputted blank value or not
+        if(urlsName == "")
+        {
+            alert("Urls name cant be empty.!");
+        }
+        else
+        {
+            //Code to convert string into array
+            urlsNameArray = urlsName.split(",");
+
+            //Code to generate for loop to generate multiple urls
+            for(var i=0; i<urlsNameArray.length; i++)
+            {
+                //Variable to store code block
+                codeToAppend = 
+                                "<div style='border:solid lightgrey; font-weight: bold; margin:20;'>" +
+                                "<code>" +
+                                    "<font class='urlsImports' style='color:Red;'>" +
+                                        "from django.urls import path<br>"+
+                                        "from . import views<br><br>"+
+                                    "</font>" +
+                                    "" +
+                                    "<font class='urlpatterns'>urlpatterns = [<br></font>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;path('[urlsName]', views.[urlsName]API.as_view()),<br>"+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;path('[urlsName]/&lt;int:id&gt;', views.[urlsName]API.as_view()),<br>"+
+                                    "<font class='urlpatterns'>]<br></font>"+
+                                "</code>" +
+                            "</div>";
+
+                //Code to replace [SerializerName] with user inputted value
+                codeToAppend = codeToAppend.replace("[urlsName]",urlsNameArray[i]).replace("[urlsName]",urlsNameArray[i])
+                                            .replace("[urlsName]",urlsNameArray[i]).replace("[urlsName]",urlsNameArray[i])
+
+                //Code to add generated serializers code into Tab2 via innerHTML
+                document.getElementById('Tab4').innerHTML += codeToAppend;
+            }
+        }
+    }
+
+    //Function to generate model via the input given by user
+    function generateModel(){
+        
+        //Code to change model name with the user inputted model name
+        document.getElementById('modelName').innerHTML = document.getElementById('txtModelName').value;
+
+        //Variable to store values
+        fieldName = document.getElementById('txtFieldName').value;
+        fieldType = document.getElementById('drpModelFields').value;
+        fieldAttributes = document.getElementById('txtAttribute').value;
+
+        document.getElementById('fieldsHolder').innerHTML += 
+        "<font class="+fieldName+">&nbsp;&nbsp;&nbsp;&nbsp;</font>"+
+        "<font class="+fieldName+"> "+fieldName+" = models."+fieldType+"("+fieldAttributes+") </font>"+
+        "<img src='https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/cross-24-512.png' class="+fieldName+" height='15px' width='15px' onclick=$('."+fieldName+"').hide();> "+
+        "<br class="+fieldName+">";
+
+
+    }
+</script>
+
+<table width="100%">
+    <tr>
+        <td colspan="3">
+            <center>  <h2> PY-REST-MSVU (Version 1.0) </h2>  </center>
+
+            <p> Whoohoo!! The PY-REST-MSVU will help you to boost your development speed as it will help you to generate 
+            models, serialization classes, views and url endpoints in just few seconds with all the CRUD operation methods 
+            readymate inside it which is directly available to use with all the neccessory parameter inside it. 
+            All you need to do is copy the code generated by PY-REST-MSVU into your django(rest_framework project and pass 
+            the parameter by calling the methods to perform CRUD operation and many more. Easy right !! 
+            😃 - <a style="color:blue; " href="https://github.com/zaidpathanGit" target="_blank"> zaidpathanGit </a> 
+            </p> <br>
+        </td>
+    </tr>
+</table>
+
+
+<div class="w3-bar w3-black">
+    <button class="w3-bar-item w3-button" onclick="openCity(&#39;Tab1&#39;)">Model</button>
+    <button class="w3-bar-item w3-button" onclick="openCity(&#39;Tab2&#39;)">Serializer[s]</button>
+    <button class="w3-bar-item w3-button" onclick="openCity(&#39;Tab3&#39;)">View[s]</button>
+    <button class="w3-bar-item w3-button" onclick="openCity(&#39;Tab4&#39;)">Url[s]</button>
+</div>
+
+<!-- Tabs starts from here -->
+<div id="Tab1" class="w3-container city" style="display: block;">
+    <table>
+        <tr>
+            <td> <input type="text" id="txtModelName" placeholder="Model name"> </td>
+
+            <td> <input type="text" id="txtFieldName" placeholder="Field name"> </td>
+            
+            <td> <select id="drpModelFields"></select> </td>
+
+            <td> <input type="text" id="txtAttribute" placeholder="Other attribute"> </td>
+
+            <td>  <input type="button" value="Generate" onclick="generateModel();"> </td>
+        </tr>
+
+        <tr>
+            <td colspan="5">
+                <div style='border:solid lightgrey; font-weight: bold; margin:20;'>
+                    <code>
+                        <font style="color:red;">
+                        from __future__ import unicode_literals <br>
+                        from django.db import models <br><br>
+                        </font>
+
+                        <font style="color:blue;">class</font> <font id="modelName">[ModelName]</font>(models.Model): <br>
+                        <font id="fieldsHolder"></font>
+                        
+                    </code>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="Tab2" class="w3-container city" style="display: none;">
+    <table width="100%">
+        <tr>
+            <td> 
+                <input type="text" id="txtSerializersname" placeholder="Serializers name e.g state,city,user">
+            </td>
+            <td>
+                <input type="button" id="btnSerializers" value="Generate" onclick="generateSerializers();">
+            </td>
+            <td>
+                <input type="button" id="btnSerializers" value="Show/Hide imports" onclick="$('.serializerImports').toggle()">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li> The serializers name must be in comma seperated format. In which comma is used to define the number of serializers you want to generate. </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    
+</div>
+
+<div id="Tab3" class="w3-container city" style="display: none;">
+    <table width="100%">
+        <tr>
+            <td> 
+                <input type="text" id="txtViewsname" placeholder="Views name e.g state,city,user">
+            </td>
+            <td>
+                <input type="button" id="btnViews" value="Generate" onclick="generateViews();">
+            </td>
+            <td>
+                <input type="button" id="btnViews" value="Show/Hide imports" onclick="$('.viewsImports').toggle()">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li> The views name must be in comma seperated format. In which comma is used to define the number of views you want to generate. </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+</div>
+
+<div id="Tab4" class="w3-container city" style="display: none;">
+    <table width="100%">
+        <tr>
+            <td> 
+                <input type="text" id="txtUrlsname" placeholder="Url name e.g state,city,user">
+            </td>
+            <td>
+                <input type="button" id="btnUrls" value="Generate" onclick="generateUrls();">
+            </td>
+            <td>
+                <input type="button" id="btnUrls" value="Show/Hide imports" onclick="$('.urlsImports').toggle()">
+            </td>
+            <td>
+                <input type="button" id="btnUrls" value="Show/Hide patterns" onclick="$('.urlpatterns').toggle()">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li> The urls name must be in comma seperated format. In which comma is used to define the number of urls you want to generate. </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    
+</div>
+
+
+<!-- Code to display particular tab when user clicks on button -->
+<script>
+    function openCity(cityName) {
+    var i;
+    var x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+    }
+    document.getElementById(cityName).style.display = "block";  
+    }
+
+
+    var fieldsArray = [
+    'TextField', 'BLANK_CHOICE_DASH', 'BigAutoField', 'BigIntegerField',
+    'BinaryField', 'BooleanField', 'CharField', 'CommaSeparatedIntegerField',
+    'DateField', 'DateTimeField', 'DecimalField', 'DurationField',
+    'EmailField', 'Empty', 'Field', 'FieldDoesNotExist', 'FilePathField',
+    'FloatField', 'GenericIPAddressField', 'IPAddressField', 'IntegerField',
+    'NOT_PROVIDED', 'NullBooleanField', 'PositiveIntegerField',
+    'PositiveSmallIntegerField', 'SlugField', 'SmallIntegerField', 'AutoField',
+    'TimeField', 'URLField', 'UUIDField',
+    ];
+
+    for(var i=0; i<fieldsArray.length; i++)
+    {
+        document.getElementById('drpModelFields').innerHTML += "<option>"+ fieldsArray[i] +"</option>";
+    }
+
+</script>
